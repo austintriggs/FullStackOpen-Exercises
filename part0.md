@@ -46,13 +46,13 @@ sequenceDiagram
     deactivate server    
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
-    Note right of browser: The browser executes the callback function that renders the notes and sends the note to the server
+    Note right of browser: The browser executes the callback function that renders the notes
 ```
 
 ## 0.5: Single page app diagram
-
-WIP
+```mermaid
+```
 
 ## 0.6: New note in Single page app diagram
-
-WIP
+```mermaid
+```
