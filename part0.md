@@ -12,27 +12,20 @@
 ## 0.4: New note diagram
 ```mermaid
 sequenceDiagram
+    participant user
     participant browser
     participant server
     
-    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
-    activate server
-    Note right of browser: When the form button is clicked, the browser sends the form data in the payload of the HTTP POST
-    server-->>browser: Responds with HTTP status code 302
-    deactivate server
-    Note left of server: Server asks the browser to do a new HTTP GET request to the address defined in the header's Location /exampleapp/notes
-
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
     server-->>browser: HTML document
     deactivate server
-    Note right of browser: The browser reloads /exampleapp/notes as requested, which causes the next 3 HTTP GET requests
     
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
     activate server
-    server-->>browser: CSS stylesheet
+    server-->>browser: the css file
     deactivate server
-
+    
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
     activate server
     server-->>browser: the JavaScript file
@@ -42,10 +35,41 @@ sequenceDiagram
     
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
-    server-->>browser: [{content: "el chapo", date: "2023-02-09T04:02:15.130Z"}, ... ]
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
     deactivate server    
-    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/data.json
+
+    Note right of browser: The browser executes the callback function that renders the notes 
+
+    user->>browser: Enter text into text field and clicking submit
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
     activate server
+    server-->>browser: 302 redirect to /notes
+    deactivate server
+
+    Note right of browser: Browser responds with 302 redirect which sends GET requests to re-render page 
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: the css file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
+
+    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+    
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
+    deactivate server
+
     Note right of browser: The browser executes the callback function that renders the notes
 ```
 
